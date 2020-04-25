@@ -29,9 +29,11 @@ class MaxHeap:
         self.find_sorted_position_in_heap_upwards(len(self.heap)-1)
 
     def find_sorted_position_in_heap_upwards(self, i):
-        while (self.check_for_parent(i) and self.heap[i].get_priority() > self.heap[self.get_parent_index(i)].get_priority()):
-            self.swap_elements(i, self.get_parent_index(i))
-            i = self.get_parent_index(i)
+        size = len(self.heap)
+        if(i > 0):
+            while (self.check_for_parent(i) and self.heap[i].get_priority() > self.heap[self.get_parent_index(i)].get_priority()):
+                self.swap_elements(i, self.get_parent_index(i))
+                i = self.get_parent_index(i)
 
     def find_sorted_position_in_heap_downwards(self, i):
         while(self.check_for_left_child(i)):
@@ -53,8 +55,10 @@ class MaxHeap:
                     return leftChildIndex
                 else:
                     return rightChildIndex
+            else:
+                return leftChildIndex
         else:
-            return -1
+            return int(-1)
 
     def pop_root(self):
         if len(self.heap) == 0:
@@ -76,8 +80,16 @@ class MaxHeap:
     def get_list(self):
         return self.heap
 
+    def get_list_in_order(self):
+        tempUnsorted = self.heap[:]
+        tempSorted = []
+        while(len(self.heap)>0):
+            tempSorted.append(self.pop_root())
+        self.heap = tempUnsorted
+        return tempSorted
+
     def get_leaf_nodes(self, i):
-        if (self.check_for_left_child(i)!=True and self.check_for_right_child(i)!=True):
+        if (self.check_for_left_child(i)==False and self.check_for_right_child(i)==False):
             self.leaves.append(i)
             return
         if (self.check_for_left_child(i)):

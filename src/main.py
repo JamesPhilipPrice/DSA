@@ -15,7 +15,7 @@ class patientQueue:
         "RTA": ["Road Traffic Accident", 54, 5],
         "BA": ["Broken Arm", 6, 2]
         }
-        self.menuOneText = "Please select one of the following options:\n(1):Add case\n(2):Retrieve next queued case\n(3):Quit program\n(4 (testing)): Increment time base priority"
+        self.menuOneText = "Please select one of the following options:\n(1):Add case\n(2):Retrieve next queued case\n(3):Quit program\n(4 (testing)): Increment time base priority\n(5): Print out entire list"
         self.addMenuText ="Please select one of the folloowing cases, or enter '-1' to return to the main menu"
         self.queue = MaxHeap()
         self.main_loop()
@@ -25,7 +25,7 @@ class patientQueue:
         validChoice = False
         while(not validChoice):
             choice = input(">>> ")
-            if (choice in ["1", "2", "3", "4"]):
+            if (choice in ["1", "2", "3", "4", "5"]):
                 validChoice = True
             else:
                 print("Invalid option, please re-enter...")
@@ -61,6 +61,11 @@ class patientQueue:
                 continue
             elif(menuOneChoice == "3"):
                 break
+            elif(menuOneChoice == "5"):
+                print("_"*20)
+                for case in self.queue.get_list_in_order():
+                    print(case.description, ":", case.get_priority())
+                continue
             self.queue.increment_priorities()
 
 
