@@ -47,6 +47,11 @@ class patientQueue:
                 print("Invalid option, please re-enter...")
         return choice
 
+	def print_queue(self):
+		print("_"*20)
+		for case in self.queue.get_list_in_order():
+			print(case.description, ":", case.get_priority())
+
     def main_loop(self):
         while (True):
             menuOneChoice = self.menu_one()
@@ -54,17 +59,16 @@ class patientQueue:
                 if(self.add_menu() == "-1"):
                     continue
                 else:
-                    print(self.queue.get_list())
-                    continue
+                    self.print_queue()
+					continue
             elif(menuOneChoice == "2"):
                 print(self.queue.pop_root())
+				self.print_queue()
                 continue
             elif(menuOneChoice == "3"):
                 break
             elif(menuOneChoice == "5"):
-                print("_"*20)
-                for case in self.queue.get_list_in_order():
-                    print(case.description, ":", case.get_priority())
+                self.print_queue()
                 continue
             self.queue.increment_priorities()
 
