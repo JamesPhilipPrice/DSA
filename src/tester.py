@@ -3,7 +3,7 @@ import heap, case, time
 class Tester:
     def __init__(self):
         plt.style.use('fivethirtyeight')
-        self.add_test(1000)
+        self.add_test(40000, 10)
 
     def add_loop(self, i):
         arr = []
@@ -12,6 +12,11 @@ class Tester:
             temp = case.Case(["null", x+1, 0])
             self.queue.add_element(temp)
         return self.queue
+
+    def single_run_add(self, i):
+        startTime = time.perf_counter()
+        self.add_loop(i)
+        print(time.perf_counter()-startTime)
 
     def pop_test(self, i):
         testOne = []
@@ -46,29 +51,26 @@ class Tester:
         ##plt.tight_layout()
         plt.show()
 
-    def add_test(self, i):
-        testOne = []
-        testTwo = []
-        testThree = []
+    def add_test(self, i, t):
         averages = []
-        xAxis = [n for n in range(0, i+10, 10)]
-        print("running test one")
-        for x in range(0, i+10, 10):
+        tempList = []
+        xAxis = [n for n in range(0, i+1000, 1000)]
+        
+        print("running base test")
+        for x in range(0, i+1000, 1000):
             startTime = time.perf_counter()
             self.add_loop(x)
-            testOne.append(time.perf_counter() - startTime)
-        print("running test two")
-        for x in range(0, i+10, 10):
-            startTime = time.perf_counter()
-            self.add_loop(x)
-            testTwo.append(time.perf_counter() - startTime)
-        print("running test three")
-        for x in range(0, i+10, 10):
-            startTime = time.perf_counter()
-            self.add_loop(x)
-            testThree.append(time.perf_counter() - startTime)
-        for x in range(len(testOne)):
-            averages.append((testOne[x]+testTwo[x]+testThree[x])/3)
+            averages.append(time.perf_counter() - startTime)
+        for test in range(1, t):
+            tempList = []
+            for x in range(0, i+1000, 1000):
+                startTime = time.perf_counter()
+                self.add_loop(x)
+                tempList.append(time.perf_counter() - startTime)
+            for x in range(len(averages)):
+                averages[x] += tempList[x]
+                averages[x] = averages[x] / 2
+        print(averages)
         plt.plot(xAxis, averages)
         ##plt.tight_layout()
         plt.show()
